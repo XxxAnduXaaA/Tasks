@@ -1,59 +1,166 @@
 package core.task_3;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 
 public class Sorting {
 
-    public static void main(String[] args) {
-
-        List <String> country = new ArrayList<>(); //1
-        List <String> region = new ArrayList<>(); //3
-        List <String> city = new ArrayList<>(); //5
-        List <String> street = new ArrayList<>(); //7
-        List <String> house = new ArrayList<>(); //9
-        List <String> apartment = new ArrayList<>(); //11
-
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("C:\\Users\\Администратор\\IdeaProjects\\FirstTask\\src\\main\\java\\core\\task_3\\addresses.txt"))) {
-            String line;
-            int counter = 0;
-            Map<String, String> map = new HashMap<>();
+    public static class Address {
+        private String country;
+        private String region;
+        private String city;
+        private String street;
+        private String house;
+        private String apartment;
 
 
-            while ((line = bufferedReader.readLine()) != null) {
-                if(!line.equals("")){
-                    String words[] = line.replaceAll(",", ":").split(":");
-                    country.add(words[1]);
-                    region.add(words[3]);
-                    city.add(words[5]);
-                    street.add(words[7]);
-                    house.add(words[9]);
-                    apartment.add(words[11]);
-                }
 
-            }
-
-            for (String word : apartment){
-                System.out.println(word);
-            }
-
-            System.out.println("\n \n"); 
-
-            Arrays.sort(new List[]{apartment});
-
-            for (String word : apartment){
-                System.out.println(word);
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        public String getCountry() {
+            return country;
         }
+
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getRegion() {
+            return region;
+        }
+
+        public void setRegion(String region) {
+            this.region = region;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
+        }
+
+        public String getHouse() {
+            return house;
+        }
+
+        public void setHouse(String house) {
+            this.house = house;
+        }
+
+        public String getApartment() {
+            return apartment;
+        }
+
+        public void setApartment(String apartment) {
+            this.apartment = apartment;
+        }
+
+        public Address(String country, String region, String city, String street, String house, String apartment) {
+            this.country = country;
+            this.region = region;
+            this.city = city;
+            this.street = street;
+            this.house = house;
+            this.apartment = apartment;
+        }
+
     }
 
+    public static void main(String[] args) {
+
+
+        List<Address> addresses = readAddressesFromFile("C:\\Users\\AndromedA\\IdeaProjects\\Tasks\\src\\main\\java\\core\\task_3\\addresses.txt");
+
+
+        Collections.sort(addresses, new Comparator<Address>() {
+            @Override
+            public int compare(Address a1, Address a2) {
+
+                int regionCompare = a1.getRegion().compareTo(a2.getRegion());
+                if (regionCompare != 0) {
+                    return regionCompare;
+                }
+
+
+                int cityCompare = a1.getCity().compareTo(a2.getCity());
+                if (cityCompare != 0) {
+                    return cityCompare;
+                }
+
+
+                int streetCompare = a1.getStreet().compareTo(a2.getStreet());
+                if (streetCompare != 0) {
+                    return streetCompare;
+                }
+
+
+                int houseCompare = a1.getHouse().compareTo(a2.getHouse());
+                if (houseCompare != 0) {
+                    return houseCompare;
+                }
+
+
+                return a1.getApartment().compareTo(a2.getApartment());
+            }
+        });
+
+        writeAddressesToFile("C:\\Users\\AndromedA\\IdeaProjects\\Tasks\\src\\main\\java\\core\\task_3\\sorted_addresses.txt", addresses);
+    }
+
+    private static List<Address> readAddressesFromFile(String filename) {
+        List<Address> addresses = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+
+                Address address = parseAddress(line);
+                addresses.add(address);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return addresses;
+    }
+
+    private static Address parseAddress(String line) {
+
+        String[] parts = line.split(", ");
+        String country = parts[0].split(": ")[1];
+        String region = parts[1].split(": ")[1];
+        String city = parts[2].split(": ")[1];
+        String street = parts[3].split(": ")[1];
+        String house = parts[4].split(": ")[1];
+        String apartment = parts[5].split(": ")[1];
+
+        return new Address(country, region, city, street, house, apartment);
+    }
+
+    private static void writeAddressesToFile(String filename, List<Address> addresses) {
+        try (PrintWriter writer = new
+
+                PrintWriter(new FileWriter(filename))) {
+            for (Address address : addresses) {
+
+                writer.println("Страна: " + address.getCountry() + ", Субъект Федерации: " + address.getRegion() +
+                        ", Город: " + address.getCity() + ", Улица: " + address.getStreet() +
+                        ", Дом: " + address.getHouse() + ", Квартира: " + address.getApartment());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

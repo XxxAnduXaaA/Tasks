@@ -1,25 +1,29 @@
 package core.task_1;
 
+import java.util.Scanner;
+
 public class Factorial {
 
-    static long fact(long n){
+    static long factorial (long n){
+        return factorialHelper(n,1);
+    }
 
-        if(n == 0){
-            return 1;
+    static long factorialHelper(long n, long acc){
+        if (n == 0){
+            return acc;
         }
 
-       long result = 1;
-
-        while (n > 0){
-            result *= n;
-            n--;
+        else{
+            return factorialHelper(n - 1,acc * n);
         }
-
-        return result;
     }
     public static void main(String[] args) {
 
-        System.out.println(fact(20));
+        Scanner scanner = new Scanner(System.in);
+
+        long num = scanner.nextLong();
+
+        System.out.println(factorial(num));
 
     }
 }
