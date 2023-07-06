@@ -7,6 +7,9 @@ import java.util.Comparator;
 import java.util.List;
 
 
+
+
+
 public class Sorting {
 
     public static class Address {
@@ -83,37 +86,47 @@ public class Sorting {
 
         List<Address> addresses = readAddressesFromFile("C:\\Users\\AndromedA\\IdeaProjects\\Tasks\\src\\main\\java\\core\\task_3\\addresses.txt");
 
+      //  Collections.sort(addresses);
+        Collections.sort(addresses, (a1, a2) -> {
+            int countryCompare = a1.getCountry().compareTo(a2.getCountry());
+            if (countryCompare != 0) {
+                return countryCompare;
+            }
 
-        Collections.sort(addresses, new Comparator<Address>() {
-            @Override
-            public int compare(Address a1, Address a2) {
+            int regionCompare = a1.getRegion().compareTo(a2.getRegion());
+            if (regionCompare != 0) {
+                return regionCompare;
+            }
 
-                int regionCompare = a1.getRegion().compareTo(a2.getRegion());
-                if (regionCompare != 0) {
-                    return regionCompare;
-                }
+            int cityCompare = a1.getCity().compareTo(a2.getCity());
+            if (cityCompare != 0) {
+                return cityCompare;
+            }
 
+            int streetCompare = a1.getStreet().compareTo(a2.getStreet());
+            if (streetCompare != 0) {
+                return streetCompare;
+            }
 
-                int cityCompare = a1.getCity().compareTo(a2.getCity());
-                if (cityCompare != 0) {
-                    return cityCompare;
-                }
-
-
-                int streetCompare = a1.getStreet().compareTo(a2.getStreet());
-                if (streetCompare != 0) {
-                    return streetCompare;
-                }
-
-
-                int houseCompare = a1.getHouse().compareTo(a2.getHouse());
+            try {
+                int house1 = Integer.parseInt(a1.getHouse().replaceAll("/.+", ""));
+                int house2 = Integer.parseInt(a2.getHouse().replaceAll("/.+", ""));
+                int houseCompare = Integer.compare(house1, house2);
                 if (houseCompare != 0) {
                     return houseCompare;
                 }
-
-
-                return a1.getApartment().compareTo(a2.getApartment());
+            } catch (NumberFormatException n) {
+                String house1 = a1.getHouse();
+                String house2 = a2.getHouse();
+                int houseNumberCompare = house1.replaceAll("/.+", "").compareTo(house2.replaceAll("/.+", ""));
+                if (houseNumberCompare != 0) {
+                    return houseNumberCompare;
+                }
             }
+
+
+
+            return a1.getApartment().compareTo(a2.getApartment());
         });
 
         writeAddressesToFile("C:\\Users\\AndromedA\\IdeaProjects\\Tasks\\src\\main\\java\\core\\task_3\\sorted_addresses.txt", addresses);
@@ -164,3 +177,5 @@ public class Sorting {
         }
     }
 }
+
+

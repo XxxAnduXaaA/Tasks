@@ -13,26 +13,7 @@ public class Triangle {
     }
 
     public static int calculateOddTriangleSum(int floorNumber) {
-        int rowNumber = 1;
-        int oddNumber = 1;
-        int lastSum = 0;
-        int lastRowNumber = 1;
-        int sum = 0;
 
-        while (rowNumber <= floorNumber) {
-            for (int i = 1; i <= rowNumber; i++) {
-                if(lastRowNumber < rowNumber){
-                    sum -= lastSum;
-                }
-                sum += oddNumber;
-                oddNumber += 2;
-                lastRowNumber = rowNumber;
-                lastSum = sum;
-
-            }
-            rowNumber++;
-        }
-
-        return sum;
+        return floorNumber * floorNumber * floorNumber;
     }
 }

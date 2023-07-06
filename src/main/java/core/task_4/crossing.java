@@ -22,11 +22,7 @@ public class crossing {
 
         // Создаем отображение элементов первого массива и их количества
         for (int num : array1) {
-            if (map.containsKey(num)) {
-                map.put(num, map.get(num) + 1);
-            } else {
-                map.put(num, 1);
-            }
+            map.merge(num, 1, Integer::sum);
         }
 
         // Проверяем каждый элемент второго массива

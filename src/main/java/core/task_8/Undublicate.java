@@ -1,5 +1,6 @@
 package core.task_8;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,23 +16,10 @@ public class Undublicate {
                 "seven eight one two three four five" +
                 " six seven eight ";
 
-        String temp[] = text.split(" ");
-        text = null;
-        text = "";
+        Set<String> uniqueWords = new HashSet<>(Arrays.asList(text.split(" ")));
+        String result = String.join(" ", uniqueWords);
 
-        Set<String> set = new HashSet<>();
-
-        for (String word : temp){
-           set.add(word);
-
-        }
-
-        for (String word : set){
-
-            text += word + " ";
-        }
-
-        System.out.println(text);
+        System.out.println(result);
 
     }
 }
