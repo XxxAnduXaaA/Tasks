@@ -1,0 +1,36 @@
+<configuration>
+
+    <!-- Настройки для логирования контроллеров -->
+    <logger name="com.example.library.controller" level="DEBUG">
+        <appender-ref ref="CONTROLLER_FILE"/>
+    </logger>
+
+    <!-- Настройки для логирования ошибок -->
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="ERROR">
+        <appender-ref ref="ERROR_FILE"/>
+    </logger>
+
+    <!-- Аппендер для логирования контроллеров в файл -->
+    <appender name="CONTROLLER_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/путь/к/папке/логов/controller.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Аппендер для логирования ошибок в файл -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>/путь/к/папке/логов/error.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ... Остальные настройки и аппендеры ... -->
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+        <!-- ... Другие appender-ref ... -->
+    </root>
+
+</configuration>
